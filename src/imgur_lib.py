@@ -7,8 +7,8 @@ import logging
 logging.basicConfig(filename='logs/imgur.log', filemode='w',
                     format='%(name)s - %(levelname)s - %(message)s')
 
-client_id = '72437224179f262'
-client_secret = 'e57c65c24a3c118921aec91b4cf65222a43184a3'
+client_id = os.environ['IMGUR_ID']
+client_secret = os.environ['IMGUR_SECRET']
 imgur_endpoint = 'https://api.imgur.com/3/'
 
 def img_upload(file_path, text, msg_id):
