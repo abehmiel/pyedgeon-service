@@ -18,6 +18,9 @@ logging.basicConfig(filename='logs/app.log', filemode='w',
 app = Flask(__name__)
 
 # twilio credential go here
+twilio_id = os.environ['TWILIO_ID']
+twilio_secret = os.environ['TWILIO_SECRET']
+twilio_number = os.environ['TWILIO_NUMBER']
 
 @app.route("/sms", methods=['GET', 'POST'])
 def sms_reply():
