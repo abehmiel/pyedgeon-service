@@ -10,6 +10,10 @@ from pyedgeon import Pyedgeon
 from src.validate_sms import validate_sms
 from src.imgur_lib import *
 from pathlib import Path
+import logging
+
+logging.basicConfig(filename='logs/app.log', filemode='w',
+                    format='%(name)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 
