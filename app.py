@@ -7,9 +7,9 @@ import requests
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
 from pyedgeon import Pyedgeon
-from validate_sms import validate_sms
+from src.validate_sms import validate_sms
+from src.imgur_lib import *
 from pathlib import Path
-from imgur_lib import *
 
 app = Flask(__name__)
 
