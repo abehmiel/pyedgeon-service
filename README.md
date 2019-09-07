@@ -1,5 +1,5 @@
 # pyedgeon-service
-pyedgeon-service is designed to use twilio + pyedgeon + imgur api to, in order:
+pyedgeon-service is designed to use twilio + [pyedgeon](https://github.com/abehmiel/pyedgeon) + imgur api to, in order:
 
 1. text a twilio number some short (6-20 character) string
 2. receive a sms message with twilio that routes the request to an http endpoint (in this case serving a localhost port using ngrok)
