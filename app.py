@@ -14,16 +14,16 @@ from src.imgur_lib import *
 from pathlib import Path
 import logging
 
+# create staic and logs folders if they don't exist
+for f in ['static', 'logs']
+    if not os.path.exists(f):
+        os.makedirs(f)
+
 logging.basicConfig(filename='logs/app.log', filemode='w',
                     format='%(name)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 app.debug = True
-# twilio credential go here
-#twilio_sid = os.environ['TWILIO_SID']
-#twilio_secret = os.environ['TWILIO_SECRET']
-#twilio_number = os.environ['TWILIO_NUMBER']
-#twilio_client = Client(twilio_sid, twilio_secret)
 
 @app.route("/sms", methods=['GET', 'POST'])
 def sms_reply():
@@ -36,6 +36,7 @@ def sms_reply():
     try:
         clean_request = validate_sms(rq)
     except:
+        # TODO: handle errors
         pass
 
     text = clean_request['Body']
