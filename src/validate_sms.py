@@ -1,7 +1,6 @@
 from flask import request
 import logging
 
-
 def validate_sms(request):
     """validate and clean data from SMS message"""
     try:

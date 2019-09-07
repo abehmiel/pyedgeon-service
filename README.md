@@ -15,12 +15,26 @@ You must set up imgur API keys and a twilio account and configure their webhooks
 including bypassing ngrok and imgur altogether and configuring your own web server that exposes content to the wider web (which is required for twilio MMS).
 
 required python packages:
-`pip3 install pyedgon
-pip3 install flask
-pip3 install imgur-python
-pip3 install twilio`
+
+`pip3 install pyedgon`
+
+`pip3 install flask`
+
+`pip3 install imgur-python`
+
+`pip3 install twilio`
+
+After cloning the repository, you must set the following imgur environment variables in your system after creating an application:
+
+`export IMGUR_ID="XXXXXXXXXXXXXXXXXXXXXXXXXXX"`
+
+`export IMGUR_SECRET="XXXXXXXXXXXXXXXXXXXXXXXXXXX"`
 
 [ngrok](https://dashboard.ngrok.com/get-started)
+
+Run ngrok first and use the website it gives you as the twilio "a message comes in" webhook and connect it to the flask endpoint, like
+
+`http://x1x2x3x4x5.ngrok.io/sms`
 
 [imgur API](https://apidocs.imgur.com/?version=latest)
 
@@ -28,5 +42,6 @@ Note: you can use the anonymous API with imgur, it's a little easier in that it 
 the ability to post as a particular user.
 
 [twilio](https://www.twilio.com/docs/usage/tutorials/how-to-use-your-free-trial-account)
+
 This is essential. You can use the free tier (which only supports 1 number to receive texts from).
 
