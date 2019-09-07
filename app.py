@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #Service that receives SMS from twilio and turns the body text into an optical
 # illusion button with pyedgeon, then uploading that image to imgur, using the
 # public imgur link as an image source, and then sending that image via MMS to
@@ -6,6 +7,7 @@
 import requests
 from flask import Flask, request, redirect
 from twilio.twiml.messaging_response import MessagingResponse
+from twilio.rest import Client
 from pyedgeon import Pyedgeon
 from src.validate_sms import validate_sms
 from src.imgur_lib import *
@@ -16,11 +18,12 @@ logging.basicConfig(filename='logs/app.log', filemode='w',
                     format='%(name)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
-
+app.debug = True
 # twilio credential go here
-twilio_id = os.environ['TWILIO_ID']
-twilio_secret = os.environ['TWILIO_SECRET']
-twilio_number = os.environ['TWILIO_NUMBER']
+#twilio_sid = os.environ['TWILIO_SID']
+#twilio_secret = os.environ['TWILIO_SECRET']
+#twilio_number = os.environ['TWILIO_NUMBER']
+#twilio_client = Client(twilio_sid, twilio_secret)
 
 @app.route("/sms", methods=['GET', 'POST'])
 def sms_reply():
@@ -28,22 +31,36 @@ def sms_reply():
 
     resp = MessagingResponse()
     # validate input and prepare txt, msg_id
-    clean_request = validate_sms(request)
-    text = clean_request.values['body']
-    msg_id = clean_request.values['sid']
+    rq = request.form.to_dict()
+    logging.info(str(rq))
+    try:
+        clean_request = validate_sms(rq)
+    except:
+        pass
+
+    text = clean_request['Body']
+    msg_id = clean_request['MessageSid']
     # create illusion object & save to file
     ill = Pyedgeon(illusion_text=text,
                    file_path='static/',
-                   filename=msg_id,
+                   file_name=msg_id,
                    file_ext='.png')
     ill.create()
     # take created file and push to imgur anonymously
     res = img_upload(ill.get_file_path(), ill.illusion_text, msg_id)
-    img_link = res["link"]
-    resp.messages(body="Thanks for using pyedgeon!",
-                  media_url=img_link)
-
-    return resp
+    img_link = str(res["link"])
+    msg = resp.message("Thanks for using pyedgeon!")
+    msg.media(img_link)
+    logging.info('link:{link} text:{text} file:{fi} from:{fr}, to:{to} sid:{s}'
+                 .format(link=img_link,
+                         text=text,
+                         fi=ill.get_file_path(),
+                         fr=clean_request['From'],
+                         to=clean_request['To'],
+                         s=msg_id,
+                         )
+                 )
+    return str(resp)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5069)
