@@ -15,7 +15,7 @@ from pathlib import Path
 import logging
 
 # create staic and logs folders if they don't exist
-for f in ['static', 'logs']
+for f in ['static', 'logs']:
     if not os.path.exists(f):
         os.makedirs(f)
 
@@ -35,7 +35,7 @@ def sms_reply():
     # validate input and prepare txt, msg_id
     val = validate_sms(rq)
     try:
-        assert val['success'] == True
+        assert val['validated'] == True
     except AssertionError as e:
         # handle case where there is an invalid input
         msg = resp.message(val['error'])

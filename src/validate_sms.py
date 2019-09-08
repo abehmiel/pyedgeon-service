@@ -25,7 +25,7 @@ def validate_sms(request):
         return errdict
 
     try:
-        assert len(text) > 20
+        assert len(text) < 20
     except AssertionError as e:
         err = 'Text is longer than 20 characters. Try a shorter phrase.'
         errdict = {'validated': False, 'error': err}
@@ -33,7 +33,7 @@ def validate_sms(request):
         return errdict
 
     try:
-        assert len(text) < 6
+        assert len(text) > 6
     except AssertionError as e:
         err = 'Text is shorter than 6 characters. Try a longer phrase.'
         errdict = {'validated': False, 'error': err}
