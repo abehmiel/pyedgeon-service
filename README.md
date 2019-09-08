@@ -16,7 +16,7 @@ including bypassing ngrok and imgur altogether and configuring your own web serv
 
 required python packages:
 
-`pip3 install pyedgon`
+`pip3 install pyedgeon`
 
 `pip3 install flask`
 
